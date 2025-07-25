@@ -96,6 +96,7 @@ root.title("Importador de Chamados - Freshservice")
 canvas_width = 925
 canvas_height = 600
 root.geometry(f"{canvas_width}x{canvas_height}")
+root.resizable(False, False)
 
 # Canvas com Formas de fundo
 canvas = ctk.CTkCanvas(root, width=canvas_width, height=canvas_height, bg="white", highlightthickness=0)
