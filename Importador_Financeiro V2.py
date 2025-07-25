@@ -6,8 +6,7 @@ import pandas
 import datetime
 import threading
 
-url = "X"
-base_url = "https://{url}.freshservice.com/api/v2/tickets"
+base_url = "https:/empresa.freshservice.com/api/v2/tickets"
 api_key = "x"
 
 def gerar_headers(api_key):
@@ -24,51 +23,67 @@ def montar_chamado(linha):
             return data.strftime("%Y-%m-%d")
         return data
     
+    #VARIAVEIS 
     cliente = str(linha.get("CLIENTE")).strip() or "Cliente não informado"
     localizador = str(linha.get("Localizador")).strip() or "Sem localizador"
     supervisor = str(linha.get('SUPERVISOR')).strip() or "Sem supervisor"
+    cd_qp = str(linha.get('Cód. QP')).strip() or None
+    referencia_externa = str(linha.get('Referência Externa')).strip() or None
+    localizador = str(linha.get('Localizador')).strip() or None
+    pendencia = str(linha.get('Pendência')).strip() or None
+    pedido_operacao = str(linha.get('PEDIDO OPERAÇÃO')).strip() or None
+    email_destino = str(linha.get('EMAIL DE DESTINO')).strip() or None
+    supervisor = str(linha.get('SUPERVISOR')).strip() or None
+    selfbooking = str(linha.get('Cód. Self-booking')).strip() or None
+    passagens = str(linha.get('Nº Passagens')).strip() or None
+    data_partida = formatar_data(linha["Data Partida"])
+    data_chegada = formatar_data(linha["Data Chegada"])
+    taxa_cancelamento = str(linha.get('Taxa Cancelamento')).strip() or None
+    desconto = str(linha.get('Desconto')).strip() or None
+    motivo_desconto = str(linha.get('Motivo Desconto')).strip() or None
+    documento = str(linha.get('Documento')).strip() or None
+    passageiro = str(linha.get('Passageiro')).strip() or None
     
     return {
-        "subject": f"{cliente} – {supervisor} – {localizador}",
+        "subject": f"Quero Passagem | {cliente} – {localizador}",
         "group_id": 15000761257,
-        "email": str(linha.get('EMAIL SOLICITANTE')).strip() or None,
+        "email": email_destino,
         "priority": 4,
-        "status": 2,
+        "status": 2, #INCLUIR NOVO STATUS AGUARDANDO OPERAÇÃO
         "description": (
         f"<div><b>Cliente:</b> {cliente}</div>"
-        f"<div><b>Referência Externa:</b> {str(linha.get('Referência Externa')).strip()}</div>"
+        f"<div><b>Referência Externa:</b> {referencia_externa}</div>"
         f"<div><b>Localizador:</b> {localizador}</div>"
-        f"<div><b>Pendência:</b> {str(linha.get('Pendência')).strip()}</div>"
-        f"<div><b>Pedido Operação:</b> {str(linha.get('PEDIDO OPERAÇÃO')).strip()}</div>"
-        f"<div><b>Email Solicitante:</b> {str(linha.get('EMAIL SOLICITANTE')).strip()}</div>"
-        f"<div><b>Supervisor:</b> {supervisor}"
-        f"<div><b>Self-booking:</b> {str(linha.get('Cód. Self-booking')).strip()}</div>"
-        f"<div><b>Passageiro:</b> {str(linha.get('Passageiro')).strip()}</div>"
-        f"<div><b>Nº Passagens:</b> {str(linha.get('Nº Passagens')).strip()}</div>"
-        f"<div><b>Data Partida:</b> {formatar_data(linha['Data Partida'])}</div>"
-        f"<div><b>Data Chegada:</b> {formatar_data(linha['Data Chegada'])}</div>"
-        f"<div><b>Taxa Cancelamento:</b> {str(linha.get('Taxa Cancelamento')).strip()}</div>"
-        f"<div><b>Desconto:</b> {str(linha.get('Desconto')).strip()}</div>"
-        f"<div><b>Motivo Desconto:</b> {str(linha.get('Motivo Desconto')).strip()}</div>"
-        f"<div><b>Documento:</b> {str(linha.get('Documento')).strip()}</div>"
+        f"<div><b>Pendência:</b> {pendencia}</div>"
+        f"<div><b>Pedido Operação:</b> {pedido_operacao}</div>"
+        f"<div><b>Supervisor:</b> {supervisor}</div>"
+        f"<div><b>Self-booking:</b> {selfbooking}</div>"
+        f"<div><b>Passageiro:</b> {passageiro}</div>"
+        f"<div><b>Nº Passagens:</b> {passagens}</div>"
+        f"<div><b>Data Partida:</b> {data_partida}</div>"
+        f"<div><b>Data Chegada:</b> {data_chegada}</div>"
+        f"<div><b>Taxa Cancelamento:</b> {taxa_cancelamento}</div>"
+        f"<div><b>Desconto:</b> {desconto}</div>"
+        f"<div><b>Motivo Desconto:</b> {motivo_desconto}</div>"
+        f"<div><b>Documento:</b> {documento}</div>"
     ),
         "custom_fields": {
             "tipo": "Financeiro teste",
-            "cd_qp": str(linha.get('Cód. QP')).strip() or None,
-            "referncia_externa": str(linha.get('Referência Externa')).strip() or None,
-            "localizador": str(linha.get('Localizador')).strip() or None,
-            "pendncia": str(linha.get('Pendência')).strip() or None,
-            "pedido_operao": str(linha.get('PEDIDO OPERAÇÃO')).strip() or None,
-            "email_solicitante": str(linha.get('EMAIL SOLICITANTE')).strip() or None,
-            "supervisor": str(linha.get('SUPERVISOR')).strip() or None,
-            "cd_selfbooking": str(linha.get('Cód. Self-booking')).strip() or None,
-            "n_pasagens": str(linha.get('Nº Passagens')).strip() or None,
-            "data_partida": formatar_data(linha["Data Partida"]),
-            "data_chegada": formatar_data(linha["Data Chegada"]),
-            "taxa_cancelamento": str(linha.get('Taxa Cancelamento')).strip() or None,
-            "desconto": str(linha.get('Desconto')).strip() or None,
-            "motivo_desconto": str(linha.get('Motivo Desconto')).strip() or None,
-            "documento": str(linha.get('Documento')).strip() or None
+            "cd_qp": cd_qp,
+            "referncia_externa": referencia_externa,
+            "localizador": localizador,
+            "pendncia": pendencia,
+            "pedido_operao": pedido_operacao,
+            "email_solicitante": email_destino,
+            "supervisor": supervisor,
+            "cd_selfbooking": selfbooking,
+            "n_pasagens": passagens,
+            "data_partida": data_partida,
+            "data_chegada": data_chegada,
+            "taxa_cancelamento": taxa_cancelamento,
+            "desconto": desconto,
+            "motivo_desconto": motivo_desconto,
+            "documento": documento
         }
     }
 
@@ -108,6 +123,7 @@ def selecionar_arquivo():
     caminho = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
     entry_arquivo.delete(0, "end")
     entry_arquivo.insert(0, caminho)
+
 
 # --- INÍCIO DA INTERFACE ---
 ctk.set_appearance_mode("light")
