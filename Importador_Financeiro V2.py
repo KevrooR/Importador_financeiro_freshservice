@@ -22,14 +22,35 @@ def montar_chamado(linha):
         if isinstance(data, (pandas.Timestamp, datetime.datetime, datetime.date)):
             return data.strftime("%Y-%m-%d")
         return data
-
+    
+    cliente = str(linha.get("CLIENTE")).strip() or "Cliente não informado"
+    localizador = str(linha.get("Localizador")).strip() or "Sem localizador"
+    supervisor = str(linha.get('SUPERVISOR')).strip() or "Sem supervisor"
+    
     return {
-        "subject": "Teste, Criação em massa",
+        "subject": f"{cliente} – {supervisor} – {localizador}",
         "group_id": 15000761257,
         "email": str(linha.get('EMAIL SOLICITANTE')).strip() or None,
         "priority": 4,
         "status": 2,
-        "description": f"<div>TESTE</div><div>{linha['CLIENTE']}</div>",
+        "description": (
+        f"<div><b>Cliente:</b> {cliente}</div>"
+        f"<div><b>Referência Externa:</b> {str(linha.get('Referência Externa')).strip()}</div>"
+        f"<div><b>Localizador:</b> {localizador}</div>"
+        f"<div><b>Pendência:</b> {str(linha.get('Pendência')).strip()}</div>"
+        f"<div><b>Pedido Operação:</b> {str(linha.get('PEDIDO OPERAÇÃO')).strip()}</div>"
+        f"<div><b>Email Solicitante:</b> {str(linha.get('EMAIL SOLICITANTE')).strip()}</div>"
+        f"<div><b>Supervisor:</b> {supervisor}"
+        f"<div><b>Self-booking:</b> {str(linha.get('Cód. Self-booking')).strip()}</div>"
+        f"<div><b>Passageiro:</b> {str(linha.get('Passageiro')).strip()}</div>"
+        f"<div><b>Nº Passagens:</b> {str(linha.get('Nº Passagens')).strip()}</div>"
+        f"<div><b>Data Partida:</b> {formatar_data(linha['Data Partida'])}</div>"
+        f"<div><b>Data Chegada:</b> {formatar_data(linha['Data Chegada'])}</div>"
+        f"<div><b>Taxa Cancelamento:</b> {str(linha.get('Taxa Cancelamento')).strip()}</div>"
+        f"<div><b>Desconto:</b> {str(linha.get('Desconto')).strip()}</div>"
+        f"<div><b>Motivo Desconto:</b> {str(linha.get('Motivo Desconto')).strip()}</div>"
+        f"<div><b>Documento:</b> {str(linha.get('Documento')).strip()}</div>"
+    ),
         "custom_fields": {
             "tipo": "Financeiro teste",
             "cd_qp": str(linha.get('Cód. QP')).strip() or None,
@@ -92,7 +113,7 @@ ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
 root = ctk.CTk()
-root.title("Importador de Chamados - Freshservice")
+root.title("Importador de Chamados V2")
 canvas_width = 925
 canvas_height = 600
 root.geometry(f"{canvas_width}x{canvas_height}")
@@ -110,7 +131,7 @@ canvas.create_polygon(vertices, outline='#E4F5FF', fill='#E4F5FF')
 canvas.create_rectangle(825, 0, 1000, 1000, fill="#00285C", outline="")
 
 # --- COMPONENTES FUNCIONAIS SOBRE O CANVAS ---
-label_titulo = ctk.CTkLabel(root, text="Importador", font=ctk.CTkFont(size=20, weight="bold"), bg_color="white", text_color="black")
+label_titulo = ctk.CTkLabel(root, text="Importador - Conciliação Financeira", font=ctk.CTkFont(size=20, weight="bold"), bg_color="white", text_color="black")
 
 label_titulo.place(x=30, y=30)
 
