@@ -3,7 +3,8 @@ import requests
 import pandas
 import datetime
 
-base_url = "https://copasturhelpdesk.freshservice.com/api/v2/tickets"
+url_empresa = "X"
+base_url = "https://{url_empresa}.freshservice.com/api/v2/tickets"
 api_key = "x"
 arquivo_excel = "C:/Users/kevin.araujo/OneDrive - copastur.com.br/Área de Trabalho/1051 CANCELADOS_teste.xlsx"
 
