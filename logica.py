@@ -4,8 +4,7 @@ import pandas
 import datetime
 
 base_url = "https://copasturhelpdesk.freshservice.com/api/v2/tickets"
-solicitante_url = "https://copasturhelpdesk.freshservice.com/api/v2/requesters?email="
-api_key = "XXXXXXXXXXXXX"
+api_key = "x"
 arquivo_excel = "C:/Users/kevin.araujo/OneDrive - copastur.com.br/Área de Trabalho/1051 CANCELADOS_teste.xlsx"
 
 df = pandas.read_excel(arquivo_excel)
