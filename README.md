@@ -1,2 +1,2 @@
 # Importador_Financeiro
-Importador de planilhas para chamados
+Le e importa cada linha de uma planilha e transforma em um chamado
