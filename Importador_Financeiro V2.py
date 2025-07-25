@@ -6,7 +6,7 @@ import pandas
 import datetime
 import threading
 
-base_url = "https://copasturhelpdesk.freshservice.com/api/v2/tickets"
+base_url = "https://{url}.freshservice.com/api/v2/tickets"
 api_key = "x"
 
 def gerar_headers(api_key):
