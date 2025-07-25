@@ -6,6 +6,7 @@ import pandas
 import datetime
 import threading
 
+url = "X"
 base_url = "https://{url}.freshservice.com/api/v2/tickets"
 api_key = "x"
 
